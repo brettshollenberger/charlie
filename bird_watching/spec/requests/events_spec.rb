@@ -31,8 +31,7 @@ describe "Events" do
       visit "/events"
       expect(page).to have_content("Index goes the dynamite")
       bird = FactoryGirl.create(:event)
-      visit "/events"
-      click_link "Show"
+      visit "/events/#{bird.id}"
       expect(page).to have_content("Show me the moneh")
     end
   end
