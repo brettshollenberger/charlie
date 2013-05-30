@@ -26,5 +26,14 @@ describe "Events" do
       click_link "Back"
       expect(page).to have_content("Jay")
     end
+
+    it "displays the right sidebar" do
+      visit "/events"
+      expect(page).to have_content("Index goes the dynamite")
+      bird = FactoryGirl.create(:event)
+      visit "/events"
+      click_link "Show"
+      expect(page).to have_content("Show me the moneh")
+    end
   end
 end
