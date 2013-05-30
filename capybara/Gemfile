@@ -10,8 +10,14 @@ gem 'pg'
 group :development, :test do
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'launchy'
+  gem 'guard-rspec'
 end
+
+group :test do
+  gem 'rb-fsevent', :require => false
+  gem 'growl'
+end
+
 
 # Gems used only for assets and not required
 # in production environments by default.

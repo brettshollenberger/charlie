@@ -22,8 +22,6 @@ describe Event do
       new_count = Event.count
       expect(new_count - previous_count).to eql(1)
       expect(Event.last.location).to eql("My house")
-
-      visit "/events"
       expect(page).to have_content("My house")
     end
 
@@ -35,6 +33,7 @@ describe Event do
       expect(page).to have_content("Wherever")
       click_link("Destroy")
       expect(page).to_not have_content("Wherever")
+      save_and_open_page
     end
 
     it "throws an error if an event is invalid" do
