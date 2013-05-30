@@ -1,0 +1,30 @@
+<h1>Listing events</h1>
+<% if @events.count > 0 %>
+  <table>
+    <tr>
+      <th>Bird</th>
+      <th>Location</th>
+      <th>Spotter</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @events.each do |event| %>
+    <tr>
+      <td><%= event.bird %></td>
+      <td><%= event.location %></td>
+      <td><%= event.spotter %></td>
+      <td><%= link_to 'Show', event %></td>
+      <td><%= link_to 'Edit', edit_event_path(event) %></td>
+      <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <p>It's a hard knock life.</p>
+<% end %>
+
+<br />
+
+<%= link_to 'New Event', new_event_path %>
