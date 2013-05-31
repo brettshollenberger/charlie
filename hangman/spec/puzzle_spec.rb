@@ -31,4 +31,8 @@ describe Puzzle do
     word2 = @puzzle.reset
     expect(word1).to_not eql(word2)
   end
+
+  it "sets the puzzle using the word" do
+    expect(@puzzle.first.secret).to eql(@puzzle.word[0])
+  end
 end

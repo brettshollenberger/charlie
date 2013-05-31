@@ -2,12 +2,14 @@ require 'csv'
 require 'pry'
 
 class Puzzle
+  include Enumerable
   attr_reader :randify, :word
 
   def initialize
     @randify = rand_num
     @count = 0
     @word = wordify
+    @puzzle = puzzlify
   end
 
   def path_to_file(file='words.csv')
@@ -28,6 +30,10 @@ class Puzzle
 
   def reset
     initialize
+  end
+
+  def each(&block)
+    @puzzle(&block)
   end
 
 end
