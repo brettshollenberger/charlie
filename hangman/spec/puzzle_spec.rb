@@ -32,7 +32,11 @@ describe Puzzle do
     expect(word1).to_not eql(word2)
   end
 
+  it "splits the word" do
+    expect(@puzzle.split_word).to be_kind_of(Array)
+  end
+
   it "sets the puzzle using the word" do
-    expect(@puzzle.first.secret).to eql(@puzzle.word[0])
+    expect(@puzzle.puzzle.first.secret).to eql(@puzzle.word[0])
   end
 end

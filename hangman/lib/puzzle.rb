@@ -1,15 +1,16 @@
 require 'csv'
 require 'pry'
+require 'letter'
 
 class Puzzle
   include Enumerable
-  attr_reader :randify, :word
+  attr_reader :randify, :word, :puzzle
 
   def initialize
     @randify = rand_num
-    @count = 0
     @word = wordify
-    @puzzle = puzzlify
+    @puzzle = []
+    puzzlify
   end
 
   def path_to_file(file='words.csv')
@@ -25,15 +26,24 @@ class Puzzle
   end
 
   def wordify
-    File.foreach(path_to_file) { |line| @count += 1; return line.chomp if @count == @randify }
+    count = 0
+    File.foreach(path_to_file) { |line| count += 1; return line.chomp if count == @randify }
+  end
+
+  def split_word
+    @word.split('')
   end
 
   def reset
     initialize
   end
 
+  def puzzlify
+    split_word.each { |letter| @puzzle.push(Letter.new(@word[letter])) }
+  end
+
   def each(&block)
-    @puzzle(&block)
+    @puzzle.each(&block)
   end
 
 end
