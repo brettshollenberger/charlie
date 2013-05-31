@@ -24,6 +24,11 @@ describe Puzzle do
 
   it "selects a random word from the file" do
     expect(@puzzle.word).to be_kind_of(String)
-    binding.pry
+  end
+
+  it "resets the puzzle" do
+    word1 = @puzzle.word
+    word2 = @puzzle.reset
+    expect(word1).to_not eql(word2)
   end
 end

@@ -2,11 +2,12 @@ require 'csv'
 require 'pry'
 
 class Puzzle
-  attr_reader :randify
+  attr_reader :randify, :word
 
   def initialize
     @randify = rand_num
     @count = 0
+    @word = wordify
   end
 
   def path_to_file(file='words.csv')
@@ -21,8 +22,12 @@ class Puzzle
     rand(1..lines_in_file)
   end
 
-  def word
+  def wordify
     File.foreach(path_to_file) { |line| @count += 1; return line.chomp if @count == @randify }
+  end
+
+  def reset
+    initialize
   end
 
 end
