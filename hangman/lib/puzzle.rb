@@ -1,33 +1,68 @@
-require 'csv'
-require 'pry'
+require './wordify'
+require './letter'
 
 class Puzzle
-  attr_reader :randify, :word
+  include Enumerable
+  attr_reader :word, :puzzle, :stringify, :guessed
 
   def initialize
-    @randify = rand_num
-    @count = 0
-    @word = wordify
+    @word = Wordify.new
+    @puzzle = []
+    @stringify = ""
+    @guessed = []
+    puzzlify
   end
 
-  def path_to_file(file='words.csv')
-    File.join(File.dirname(__FILE__), file)
-  end
-
-  def lines_in_file
-    File.foreach(path_to_file).inject(0) { |count, line| count += 1 }
-  end
-
-  def rand_num
-    rand(1..lines_in_file)
-  end
-
-  def wordify
-    File.foreach(path_to_file) { |line| @count += 1; return line.chomp if @count == @randify }
+  def split_word
+    @word.split('')
   end
 
   def reset
     initialize
+  end
+
+  def puzzlify
+    split_word.each { |letter| @puzzle.push(Letter.new(@word[letter])) }
+  end
+
+  def stringify
+    @stringify = ""
+    @puzzle.each { |letter| @stringify << letter.display }
+    @stringify
+  end
+
+  def display
+    puts stringify
+  end
+
+  def each(&block)
+    @puzzle.each(&block)
+  end
+
+  def guess(guess)
+    @puzzle.each { |letter| letter.display = guess if letter.secret == guess }
+    @guessed.push(guess)
+    self.display
+  end
+
+  def in_puzzle?(guess)
+    @puzzle.each { |letter| return true if letter.secret == guess; next }
+    return false
+  end
+
+  def solved?
+    @puzzle.each { |letter| return false if letter.display == "_"; next }
+    return true
+  end
+
+  def guessed?(guess)
+    @guessed.each { |g| return true if g == guess }
+    return false
+  end
+
+  def found?(guess)
+    return true if in_puzzle?(guess) && !guessed?(guess)
+    return false
   end
 
 end

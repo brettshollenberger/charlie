@@ -1,5 +1,5 @@
 class Letter < String
-  attr_reader :display, :secret
+  attr_accessor :display, :secret
   def initialize(letter)
     @display = "_"
     @secret = letter
