@@ -29,4 +29,25 @@ describe Puzzle do
     expect(@puzzle.stringify).to include("_")
   end
 
+  it "makes a guess" do
+    @puzzle.guess("e")
+    expect(@puzzle.stringify).to include("e") if @puzzle.in_puzzle?("e")
+    expect(@puzzle.stringify).to_not include("e") if !@puzzle.in_puzzle?("e")
+  end
+
+  it "knows when you haven't won yet" do
+    expect(@puzzle.solved?).to_not eql(true)
+  end
+
+  it "knows when you have won" do
+    letters = ("a".."z").to_a
+    letters.each { |letter| @puzzle.guess(letter) }
+    expect(@puzzle.solved?).to eql(true)
+  end
+
+  it "knows which letters have been guessed" do
+    @puzzle.guess("e")
+    expect(@puzzle.guessed?("e")).to eql(true)
+  end
+
 end

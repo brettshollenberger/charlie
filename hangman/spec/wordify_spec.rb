@@ -21,4 +21,5 @@ describe Wordify do
   it "selects a random word from the file" do
     expect(@wordify).to be_kind_of(String)
   end
+
 end

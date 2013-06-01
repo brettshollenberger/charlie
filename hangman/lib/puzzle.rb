@@ -1,14 +1,15 @@
-require 'wordify'
-require 'letter'
+require './wordify'
+require './letter'
 
 class Puzzle
   include Enumerable
-  attr_reader :word, :puzzle, :stringify
+  attr_reader :word, :puzzle, :stringify, :guessed
 
   def initialize
     @word = Wordify.new
     @puzzle = []
     @stringify = ""
+    @guessed = []
     puzzlify
   end
 
@@ -31,11 +32,37 @@ class Puzzle
   end
 
   def display
-    puts @stringify
+    puts stringify
   end
 
   def each(&block)
     @puzzle.each(&block)
+  end
+
+  def guess(guess)
+    @puzzle.each { |letter| letter.display = guess if letter.secret == guess }
+    @guessed.push(guess)
+    self.display
+  end
+
+  def in_puzzle?(guess)
+    @puzzle.each { |letter| return true if letter.secret == guess; next }
+    return false
+  end
+
+  def solved?
+    @puzzle.each { |letter| return false if letter.display == "_"; next }
+    return true
+  end
+
+  def guessed?(guess)
+    @guessed.each { |g| return true if g == guess }
+    return false
+  end
+
+  def found?(guess)
+    return true if in_puzzle?(guess) && !guessed?(guess)
+    return false
   end
 
 end
