@@ -1,5 +1,5 @@
-require './wordify'
-require './letter'
+require 'wordify'
+require 'letter'
 
 class Puzzle
   include Enumerable

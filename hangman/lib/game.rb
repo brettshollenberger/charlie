@@ -1,51 +1,66 @@
-require './puzzle'
+require 'puzzle'
 
 class Game
-  attr_accessor :player_count, :players, :puzzle, :turn
+  attr_accessor :player_count, :players, :player_order, :puzzle, :turn
 
-  def initialize
-    @player_count = get_player_count
-    @players = []
-    get_player_names
+  def start
+    setup
     @puzzle = Puzzle.new
     @turn = 0
     play_game
   end
 
+  def setup
+    @player_count = get_player_count
+    @players = []
+    @player_order = []
+    get_player_names
+    shuffle_players
+  end
+
   def get_player_count
-    puts "How many players? (1 to 5)"
-    player_count = gets.chomp
-    return player_count.to_i if valid_player_count?(player_count)
-    puts "I'm sorry, I didn't understand your response."
+    puts "How many players?"
+    player_count = gets.chomp.to_i
+    return player_count if valid_player_count?(player_count)
     get_player_count
   end
 
   def valid_player_count?(player_count)
-    return true if player_count.to_i <= 5 && player_count.to_i >= 1
+    return true if player_count >= 1 && player_count <= 5
     return false
   end
 
   def get_player_names
-    (1..@player_count).each do |player|
-      get_player_name(player)
+    (1..@player_count).each do |index|
+      @players.push(get_player_name(index).capitalize)
     end
   end
 
-  def get_player_name(player)
-    player_index = player - 1
-    puts "What is player #{player}'s name?"
-    try_name = gets.chomp
-    if !player_name_taken?(try_name)
-      @players.push(try_name.capitalize)
-    else
-      puts "I'm sorry, #{try_name} is already playing. Please try again."
-      get_player_name(player)
-    end
+  def get_player_name(index)
+    puts "What is Player #{index}'s name?"
+    name = gets.chomp
+    return name if valid_name?(name)
+    invalid_name(name, index)
   end
 
-  def player_name_taken?(player_name)
-    @players.each {|player| return true if player_name.downcase == player.downcase }
-    return false
+  def valid_name?(name)
+    @players.each { |player| return false if player.downcase == name.downcase }
+    return true
+  end
+
+  def invalid_name(name, index)
+    puts "I'm sorry, #{name} is already taken. Please try again."
+    get_player_name(index)
+  end
+
+  def shuffle_players
+    puts "Now shuffling players. The order will be:"
+    index = 1
+    @players.shuffle.each do |player|
+      puts "#{index}: #{player}"
+      index += 1
+      player_order.push(player)
+    end
   end
 
   def play_game
@@ -55,39 +70,21 @@ class Game
   end
 
   def turn
-    make_guess
-    check_win
+    puts "#{player_order[@turn]}, take a guess:"
+    guess = gets.chomp
+    puts "We found #{guess}!" if @puzzle.found?(guess)
+    @puzzle.guess(guess)
+    check_solved
     switch_turn
   end
 
-  def make_guess
-    puts "#{@players[@turn]}, make a guess."
-    guess = gets.chomp
-    check_guessed(guess)
-    check_found(guess)
-    @puzzle.guess(guess)
-  end
-
-  def check_guessed(guess)
-    if @puzzle.guessed?(guess)
-      puts "I'm sorry, #{guess} was already guessed."
-      make_guess
-    end
-  end
-
-  def check_found(guess)
-    puts "We found #{guess}!" if @puzzle.found?(guess)
-  end
-
-  def check_win
-    puts "#{ @players[@turn] } wins!" if @puzzle.solved?
+  def check_solved
+    puts "#{player_order[@turn]} wins!" if @puzzle.solved?
   end
 
   def switch_turn
-    @turn += 1 unless @turn >= @player_count
-    @turn = 0 if @turn >= @player_count
+    @turn += 1 unless @turn >= @players.length
+    @turn = 0 if @turn >= @players.length
   end
 
 end
-
-game = Game.new
