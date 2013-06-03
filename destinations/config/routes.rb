@@ -1,5 +1,10 @@
 Destinations::Application.routes.draw do
-  resources :trips
+  resources :destinations
+
+
+  resources :trips do
+    resources :destinations
+  end
 
   root :to => 'trips#index'
 
