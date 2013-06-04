@@ -1,0 +1,8 @@
+HERE IS THE MENU ITEM INDEX PAGE
+
+<% @menu_items.each do |item| %>
+  <%= item.name %>
+  <%= item.description %>
+  <%= item.price_in_cents %>
+  <%= item.price_in_dollars %>
+<% end %>
