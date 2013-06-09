@@ -1,0 +1,17 @@
+<h1>Listing books</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>ISBN</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<%= render :partial => 'book_index', :collection => @books, :as => "book" %>
+</table>
+
+<br />
+
+<%= link_to 'New Book', new_book_path %>

@@ -1,0 +1,15 @@
+<%= form_for(@survey) do |f| %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <%= f.fields_for :questions do |builder| %>
+  <p>
+    <%= builder.label :body, "Question" %><br>
+    <%= builder.text_area :body %>
+  </p>
+  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

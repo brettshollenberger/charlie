@@ -4,10 +4,10 @@ class EventsController < ApplicationController
   def index
     puts "I'm so excited!" if params[:excited]
     @events = Event.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @events }
+    render_to_string nothing: true
+    # respond_to do |format|
+    #   format.html # index.html.erb
+    #   format.json { render json: @events }
     end
   end
 
