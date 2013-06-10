@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Cheggit Out</h1>
+  <h3><%= notice %></h3>
+
+  <table class="table table-striped">
+    <thead>
+      <th>Email</th>
+      <th>Subject</th>
+      <th>Description</th>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%= @inquiry.user.email %></td>
+          <td><%= @inquiry.subject %></td>
+          <td><%= @inquiry.description %></td>
+        </tr>
+    </tbody>
+  </table>
+  <%= link_to "All Inquiries", inquiries_path %> |
+  <%= link_to "Edit Inquiry", edit_inquiry_path(@inquiry) %> |
+  <%= link_to "New Inquiry", new_inquiry_path %>
+</div>
+

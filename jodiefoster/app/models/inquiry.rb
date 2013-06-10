@@ -5,4 +5,8 @@ class Inquiry < ActiveRecord::Base
     presence: true
   }
 
+  belongs_to :user, {
+    inverse_of: :inquiries
+  }
+
 end
