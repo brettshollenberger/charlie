@@ -1,7 +1,7 @@
 require 'rspec'
 require 'guard/rspec'
 
-require_relative '../lib/puzzle'
+require_relative '../lib/hangman'
 
 describe Puzzle do
   before(:each) do

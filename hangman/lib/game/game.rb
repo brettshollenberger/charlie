@@ -1,12 +1,8 @@
-require 'puzzle'
-
 class Game
   attr_accessor :player_count, :players, :player_order, :puzzle, :turn
 
   def start
     setup
-    @puzzle = Puzzle.new
-    @turn = 0
     play_game
   end
 
@@ -16,6 +12,8 @@ class Game
     @player_order = []
     get_player_names
     shuffle_players
+    @puzzle = Puzzle.new
+    @turn = 0
   end
 
   def get_player_count
@@ -64,12 +62,10 @@ class Game
   end
 
   def play_game
-    while !@puzzle.solved?
-      turn
-    end
+    take_turn until @puzzle.solved?
   end
 
-  def turn
+  def take_turn
     puts "#{player_order[@turn]}, take a guess:"
     guess = gets.chomp
     puts "We found #{guess}!" if @puzzle.found?(guess)

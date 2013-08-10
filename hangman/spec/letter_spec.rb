@@ -1,7 +1,7 @@
 require 'rspec'
 require 'guard/rspec'
 
-require_relative "../lib/letter"
+require_relative "../lib/hangman"
 
 describe Letter do
   before(:each) do
